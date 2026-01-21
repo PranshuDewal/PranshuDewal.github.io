@@ -16,4 +16,4 @@ Technology leader with 16+ years of experience delivering enterprise platforms, 
 
 ## Contact
 - Email: [pranshumd@gmail.com](mailto:pranshumd@gmail.com)
-- LinkedIn: [pranshu-2684261b](https://www.linkedin.com/in/pranshu-2684261b/)
+- LinkedIn: [Pranshu Dewal](https://www.linkedin.com/in/pranshu-2684261b/)

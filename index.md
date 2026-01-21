@@ -1,3 +1,8 @@
+---
+layout: default
+title: ""
+---
+
 # Pranshu Mohan Dewal
 
 Technology leader with 16+ years of experience delivering enterprise platforms, data systems, and AI-enabled solutions in production environments. I care deeply about building systems that work at scale under real operational, regulatory, and organizational constraints.

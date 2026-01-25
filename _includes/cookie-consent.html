@@ -1,0 +1,142 @@
+<!-- Cookie Consent Banner for Quebec Law 25 Compliance -->
+<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none;">
+  <div class="cookie-consent-content">
+    <div class="cookie-consent-text">
+      <p><strong>Privacy Notice</strong></p>
+      <p>This website uses Google Analytics to collect anonymous usage data to help improve the site. In accordance with Quebec's Law 25 (Act respecting the protection of personal information in the private sector), we require your explicit consent before enabling any tracking.</p>
+      <p>Data collected may include: pages visited, time spent on site, approximate geographic location, device type, and referral source. This data is anonymized and used solely for site improvement.</p>
+      <p><a href="{{ '/privacy' | relative_url }}">Read our full Privacy Policy</a></p>
+    </div>
+    <div class="cookie-consent-buttons">
+      <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Accept Analytics</button>
+      <button id="cookie-decline" class="cookie-btn cookie-btn-decline">Decline</button>
+    </div>
+  </div>
+</div>
+
+<!-- Consent Management Link (shown after choice is made) -->
+<div id="cookie-settings-link" class="cookie-settings-link" style="display: none;">
+  <a href="#" id="manage-cookies">Manage Cookie Preferences</a>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Google Analytics Measurement ID - Replace with your actual ID
+  var GA_MEASUREMENT_ID = '{{ site.google_analytics }}';
+
+  var CONSENT_KEY = 'analytics_consent';
+  var CONSENT_DATE_KEY = 'analytics_consent_date';
+
+  // Get consent status from localStorage
+  function getConsent() {
+    return localStorage.getItem(CONSENT_KEY);
+  }
+
+  // Set consent status
+  function setConsent(value) {
+    localStorage.setItem(CONSENT_KEY, value);
+    localStorage.setItem(CONSENT_DATE_KEY, new Date().toISOString());
+  }
+
+  // Clear consent
+  function clearConsent() {
+    localStorage.removeItem(CONSENT_KEY);
+    localStorage.removeItem(CONSENT_DATE_KEY);
+  }
+
+  // Load Google Analytics
+  function loadGoogleAnalytics() {
+    if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === '') {
+      console.log('Google Analytics ID not configured');
+      return;
+    }
+
+    // Create gtag script
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    document.head.appendChild(script);
+
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_MEASUREMENT_ID, {
+      'anonymize_ip': true,
+      'cookie_flags': 'SameSite=None;Secure'
+    });
+  }
+
+  // Show consent banner
+  function showBanner() {
+    var banner = document.getElementById('cookie-consent-banner');
+    var settingsLink = document.getElementById('cookie-settings-link');
+    if (banner) banner.style.display = 'flex';
+    if (settingsLink) settingsLink.style.display = 'none';
+  }
+
+  // Hide consent banner
+  function hideBanner() {
+    var banner = document.getElementById('cookie-consent-banner');
+    var settingsLink = document.getElementById('cookie-settings-link');
+    if (banner) banner.style.display = 'none';
+    if (settingsLink) settingsLink.style.display = 'block';
+  }
+
+  // Handle accept
+  function handleAccept() {
+    setConsent('accepted');
+    hideBanner();
+    loadGoogleAnalytics();
+  }
+
+  // Handle decline
+  function handleDecline() {
+    setConsent('declined');
+    hideBanner();
+  }
+
+  // Handle manage cookies click
+  function handleManageCookies(e) {
+    e.preventDefault();
+    clearConsent();
+    showBanner();
+  }
+
+  // Initialize on DOM ready
+  function init() {
+    var consent = getConsent();
+
+    if (consent === 'accepted') {
+      // User previously accepted - load analytics
+      loadGoogleAnalytics();
+      hideBanner();
+    } else if (consent === 'declined') {
+      // User previously declined - just hide banner
+      hideBanner();
+    } else {
+      // No consent yet - show banner
+      showBanner();
+    }
+
+    // Attach event listeners
+    var acceptBtn = document.getElementById('cookie-accept');
+    var declineBtn = document.getElementById('cookie-decline');
+    var manageLink = document.getElementById('manage-cookies');
+
+    if (acceptBtn) acceptBtn.addEventListener('click', handleAccept);
+    if (declineBtn) declineBtn.addEventListener('click', handleDecline);
+    if (manageLink) manageLink.addEventListener('click', handleManageCookies);
+  }
+
+  // Run init when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

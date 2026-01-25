@@ -2,10 +2,10 @@ title: ""
 show_downloads: false
 
 # Google Analytics Configuration
-# Replace with your Google Analytics 4 Measurement ID (format: G-XXXXXXXXXX)
-# To get your ID:
+# Replace with Google Analytics 4 Measurement ID (format: G-XXXXXXXXXX)
+# To get the Measurement ID:
 # 1. Go to https://analytics.google.com/
-# 2. Create a new property or use existing
+# 2. Create a new property or use existing (pranshudewal.github.io/portfolio)
 # 3. Go to Admin > Data Streams > Web
 # 4. Copy the Measurement ID
-google_analytics: ""
+google_analytics: "G-BYQHCV28FR"
